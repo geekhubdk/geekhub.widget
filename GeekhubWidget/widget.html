@@ -1,0 +1,112 @@
+﻿<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+    (function() {
+        $.ajax(
+            {
+                url: "http://geekhub.dk/api/v1/meetings",
+            }
+        ).success(function(data) {
+            var container = $("#geekhub-widget-container");
+            var header = $("<div class=\"geekhub-widget-header\">geekhub</div>");
+            var meetings = $("<div class=\"geekhub-widget-meetings\"></div>");
+            container.append(header);
+            container.append(meetings);
+            
+            $(data).each(function (index, item) {
+                if(index < 5) {
+                    var div = $("<div></div>");
+                    div.addClass("geekhub-widget-meeting");
+                    var date = $("<div class=\"geekhub-widget-date\">" + DateString(item.starts_at) + "</div>");
+                    var dash = $("<span class=\"geekhub-widget-dash\"> - </span>");
+                    var link = $("<a href=\"" + item.url + "\">" + item.title + "</a>");
+                    div.append(date);
+                    div.append(dash);
+                    div.append(link);
+                    meetings.append(div);
+                }
+            });
+        });
+        
+        function DateString(d) {
+            var dateobj = new Date(d);
+
+            return dateobj.getDate() + "." + monthName(dateobj.getMonth());
+        }
+        
+        function monthName(number) {
+            switch(number) {
+            case 0:
+                return "jan";
+            case 1:
+                return "feb";
+            case 2:
+                return "mar";
+            case 3:
+                return "apr";
+            case 4:
+                return "maj";
+            case 5:
+                return "jun";
+            case 6:
+                return "jul";
+            case 7:
+                return "aug";
+            case 8:
+                return "sep";
+            case 9:
+                return "okt";
+            case 10:
+                return "nov";
+            case 11:
+                return "dec";
+                
+            }
+        }
+    })();
+</script>
+    <style>
+        #geekhub-widget-container {
+            margin: 0;
+            font-family: 'Open Sans', arial, sans-serif;
+            font-weight: 300;
+            font-size: 13px;
+            color: #111;
+        }
+
+        #geekhub-widget-container * {
+            font-family: 'Open Sans', arial, sans-serif;
+            font-weight: 300;
+            font-size: 13px;
+            color: #111;
+        }
+        #geekhub-widget-container .geekhub-widget-header {
+            background-color: #0072BB;
+            color: #fff;
+            padding: 4px 8px;
+        }
+        #geekhub-widget-container .geekhub-widget-meetings {
+            border-bottom: 1px solid #C6C6C6;
+            box-shadow: 2px 2px 2px rgba(200, 200, 200, 0.2);
+        }
+
+        #geekhub-widget-container .geekhub-widget-meeting {
+            border-bottom: 1px solid #E5E5E5;
+            border-left: 1px solid #C6C6C6;
+            border-right: 1px solid #C6C6C6;
+            padding: 8px;
+            background: #fff;
+        }
+
+        #geekhub-widget-container .geekhub-widget-meeting a {
+            color: #111;
+            text-decoration: none;
+        }
+
+        #geekhub-widget-container .geekhub-widget-meeting .geekhub-widget-date {
+            display: inline;
+            font-weight: 400;
+        }
+    </style>
+    <div id="geekhub-widget-container" style="overflow:hidden;">
+        
+    </div>
